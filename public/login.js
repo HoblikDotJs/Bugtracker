@@ -56,4 +56,6 @@ function onSignIn(googleUser) {
     console.log('Name: ' + profile.getName());
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail());
+    $("#googleBtn").html(`<img id="userImg" src="${profile.getImageUrl()}">`);
+    $("#someuserimg").html(`<img class="otherUsersImages" src="${profile.getImageUrl()}">`)
 }

@@ -31,8 +31,9 @@
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
-            <li>
-              <a href="#"> <label for="show" id="logoutButton">Log In </label></a>
+            <li id="googleBtn">
+              <!--<a href="#"> <label for="show" id="logoutButton">Log In </label></a>-->
+              <div id="my-signin2"></div>
             </li>
           </ul>
         </div>
@@ -44,66 +45,52 @@
         <div id="todo" class="tileContainer col-md-3">
           <div class="tile">
             <p class="text-dark">Todo:</p>
-            <button class="btn plus"><span class="glyphicon glyphicon-plus"></span></button>
+            <button class="btn plus" onclick="addTodo()"><span class="glyphicon glyphicon-plus"></span></button>
+            <div class="containBox" id="todoBoxes">
+              <div class="box">
+                <p>Cant select your mother Cant select your mother Cant select your mother</p>
+                <div id="someuserimg"></div>
+                <p class="lowPriority">Low</p>
+              </div>
+            </div>
           </div>
         </div>
         <div id="inprogress" class="tileContainer col-md-3">
           <div class="tile">
             <p class="text-dark">In progress:</p>
-            <button class="btn plus"><span class="glyphicon glyphicon-plus"></span></button>
+            <button class="btn plus" onclick="addInprogress()"><span class="glyphicon glyphicon-plus"></span></button>
+            <div class="containBox" id="progressBoxes">
+              <div class="box">
+                <p>Cant select your mother Cant select your mother Cant select your mother</p>
+                <div id="someuserimg"></div>
+                <p class="lowPriority">Low</p>
+              </div>
+            </div>
           </div>
         </div>
         <div id="review" class="tileContainer col-md-3">
           <div class="tile">
             <p class="text-dark">Review:</p>
-            <button class="btn plus"><span class="glyphicon glyphicon-plus"></span></button>
+            <button class="btn plus" onclick="addReview()"><span class="glyphicon glyphicon-plus"></span></button>
+            <div class="containBox" id="reviewBoxes"></div>
           </div>
         </div>
         <div id="done" class="tileContainer col-md-3">
           <div class="tile">
-
             <p class="text-dark">Done:</p>
-            <button class="btn plus"><span class="glyphicon glyphicon-plus"></span></button>
+            <button class="btn plus" onclick="addDone()"><span class="glyphicon glyphicon-plus"></span></button>
+            <div class="containBox" id="doneBoxes">
+              <div class="box">
+                <p>Cant select your mother Cant select your mother Cant select your mother</p>
+                <div id="someuserimg"></div>
+                <p class="lowPriority">Low</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    <div class="center">
-      <input type="checkbox" id="show" />
-      <div id="loginForm" class="container">
-        <div class="text" id="heading">Log In</div>
-        <label for="show" class="close-btn fas fa-times" title="close"></label>
-        <form>
-          <div class="data">
-            <label>Email</label>
-            <input type="text" id="email" required />
-          </div>
-          <div class="data">
-            <label>Password</label>
-            <input type="password" id="pass" required />
-          </div>
-          <div class="forgot-pass">
-            <a href="#">Forgot Password?</a>
-          </div>
-          <div class="btn">
-            <div class="inner"></div>
-            <button type="submit" id="loginButton" onclick="login()">
-              log in
-            </button>
-          </div>
-          <div class="signup-link">
-            <span id="memberToggle">Not a member?</span>
-            <a onclick="signupShow()" id="signupToggle">Signup now</a>
-          </div>
-        </form>
-      </div>
-    </div>
   </div>
-
-
-
-
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
@@ -124,20 +111,27 @@
   <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#available-libraries -->
   <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-auth.js"></script>
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
   <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-analytics.js"></script>
-  <!-- <meta
-      name="google-signin-client_id"
-      content="976756222538-r7tbjf42ogu6nkc073q208iges87lhrg.apps.googleusercontent.com"
-    />
-    <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log("User signed out.");
-        });
-      }
-    </script>-->
+  <meta name="google-signin-client_id"
+    content="976756222538-r7tbjf42ogu6nkc073q208iges87lhrg.apps.googleusercontent.com" />
+  <script>
+    function onFailure(error) {
+      console.log(error);
+    }
+
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 150,
+        'height': 50,
+        'longtitle': false,
+        'theme': 'light',
+        'onsuccess': onSignIn,
+        'onfailure': onFailure
+      });
+    }
+  </script>
   <script>
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
