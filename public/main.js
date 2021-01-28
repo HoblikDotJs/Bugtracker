@@ -1,6 +1,6 @@
 const sett = {
   text: "Enter text here",
-  user: "https://lh3.googleusercontent.com/a-/AOh14Ghy3XMxqrfkEkrbBkRyfZwzEZhT76BQxqGopay4=s96-c",
+  user: "",
   priority: "low"
 };
 
