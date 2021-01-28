@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bugtracker 0.0.3</title>
+  <title>Bugtracker 0.0.4</title>
   <script src="login.js"></script>
   <script src="main.js"></script>
   <link href="style.css" rel="stylesheet" />
@@ -47,11 +47,6 @@
             <p class="text-dark">Todo:</p>
             <button class="btn plus" onclick="addTodo()"><span class="glyphicon glyphicon-plus"></span></button>
             <div class="containBox" id="todoBoxes">
-              <div class="box">
-                <p>Cant select your mother Cant select your mother Cant select your mother</p>
-                <div id="someuserimg"></div>
-                <p class="lowPriority">Low</p>
-              </div>
             </div>
           </div>
         </div>
@@ -60,11 +55,7 @@
             <p class="text-dark">In progress:</p>
             <button class="btn plus" onclick="addInprogress()"><span class="glyphicon glyphicon-plus"></span></button>
             <div class="containBox" id="progressBoxes">
-              <div class="box">
-                <p>Cant select your mother Cant select your mother Cant select your mother</p>
-                <div id="someuserimg"></div>
-                <p class="lowPriority">Low</p>
-              </div>
+
             </div>
           </div>
         </div>
@@ -80,11 +71,7 @@
             <p class="text-dark">Done:</p>
             <button class="btn plus" onclick="addDone()"><span class="glyphicon glyphicon-plus"></span></button>
             <div class="containBox" id="doneBoxes">
-              <div class="box">
-                <p>Cant select your mother Cant select your mother Cant select your mother</p>
-                <div id="someuserimg"></div>
-                <p class="lowPriority">Low</p>
-              </div>
+
             </div>
           </div>
         </div>
@@ -135,7 +122,7 @@
   <script>
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    var firebaseConfig = {
+    const firebaseConfig = {
       apiKey: "AIzaSyAbWxquh7k2iCV5d-ItB6SkkcyOKv1nsus",
       authDomain: "bugtracker-6b5ed.firebaseapp.com",
       projectId: "bugtracker-6b5ed",
@@ -148,6 +135,7 @@
     firebase.initializeApp(firebaseConfig);
     firebase.analytics();
   </script>
+  <script src="drag.js"></script>
 </body>
 
 </html>

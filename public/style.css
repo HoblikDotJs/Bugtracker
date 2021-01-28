@@ -10,11 +10,24 @@ body {
   height: 100vh;
   width: 100%;
 }
+/*
+.containBox {
+  min-height: 10px;
+}*/
+
+/*
+select only if Enter text here
+*/
+
 #backgroundC {
   /*background-image: url("bg.png");*/
   background-color: #f6f8f9;
   max-height: 1000%;
   min-height: 100%;
+}
+
+.text-dark {
+  user-select: none;
 }
 
 .navbar .navbar-nav {
@@ -35,8 +48,11 @@ body {
 .tileContainer {
   height: 100%;
 }
+.draggable.dragging {
+  opacity: 0.5;
+}
 
-.box {
+.draggable {
   font-weight: 200;
   background-color: white;
   margin-top: 15px;
@@ -46,22 +62,36 @@ body {
   min-height: 50px;
   padding: 0.5em;
 }
-.lowPriority {
+.priority {
   text-align: center;
-  background-color: #a4ce30;
   color: white;
   border-radius: 15px;
   margin-left: 8px;
   margin-bottom: 5.4px;
   width: 100px;
 }
+
+.lowPriority {
+  background-color: #a4ce30;
+}
+
+.mediumPriority {
+  background-color: #fd612c;
+}
+
+.highPriority {
+  background-color: #e8384f;
+}
+
 .plus {
+  user-select: none;
   color: gray;
   margin-left: 8px;
   width: 94%;
   background-color: white;
   box-shadow: 0 1px rgb(230, 230, 230);
   height: 3em;
+  border: none;
 }
 #logoutButton {
   font-weight: 200;
@@ -112,9 +142,6 @@ li {
   transform: translate(-40%, -40%);
 }
 
-input[type="checkbox"] {
-  display: none;
-}
 .container {
   display: none;
   background: #fff;
