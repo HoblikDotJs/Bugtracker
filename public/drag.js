@@ -8,6 +8,7 @@ function updateDragging() {
 
         draggable.addEventListener('dragend', () => {
             draggable.classList.remove('dragging')
+            updateProject()
         })
     })
 

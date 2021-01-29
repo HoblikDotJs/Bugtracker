@@ -20,7 +20,6 @@ select only if Enter text here
 */
 
 #backgroundC {
-  /*background-image: url("bg.png");*/
   background-color: #f6f8f9;
   max-height: 1000%;
   min-height: 100%;
@@ -62,6 +61,9 @@ select only if Enter text here
   min-height: 50px;
   padding: 0.5em;
 }
+.draggable div {
+  margin-left: 10px;
+}
 .priority {
   text-align: center;
   color: white;
@@ -93,6 +95,7 @@ select only if Enter text here
   height: 3em;
   border: none;
 }
+
 #logoutButton {
   font-weight: 200;
 }
