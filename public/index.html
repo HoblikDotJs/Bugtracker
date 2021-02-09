@@ -4,10 +4,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bugtracker 0.0.5</title>
+  <title>Bugtracker 0.0.6</title>
   <script src="login.js"></script>
   <script src="main.js"></script>
   <script src="tiles.js"></script>
+  <script src="projects.js"></script>
   <link href="style.css" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 </head>
@@ -25,11 +26,14 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-left">
-            <li><a href="#">Projects</a></li>
+            <li><a id="projectBtn" onclick="showProjects()">Projects</a></li>
           </ul>
           <ul class="nav navbar-nav">
-            <li><a href="#" style="color:black" contenteditable="true" onclick="editTile(this)"><big>Project
-                  name</big></a></li>
+            <li>
+              <p id="projectName" href="#" style="color:black" contenteditable="true" onclick="editTile(this)">
+                Project name
+              </p>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -42,7 +46,7 @@
       </div>
     </nav>
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="oneProject">
       <div class="row" onmouseup="updateProject()">
         <div id="todo" class="tileContainer col-md-3">
           <div class="tile">
@@ -57,7 +61,6 @@
             <p class="text-dark">In progress:</p>
             <button class="btn plus" onclick="addInprogress()"><span class="glyphicon glyphicon-plus"></span></button>
             <div class="containBox" id="progressBoxes">
-
             </div>
           </div>
         </div>
@@ -73,12 +76,15 @@
             <p class="text-dark">Done:</p>
             <button class="btn plus" onclick="addDone()"><span class="glyphicon glyphicon-plus"></span></button>
             <div class="containBox" id="doneBoxes">
-
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div id="projects" hidden>
+    </div>
+
   </div>
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"

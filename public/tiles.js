@@ -68,7 +68,9 @@ function createTile({
 }
 
 function editTile(el) {
-    window.getSelection().selectAllChildren(el);
+    if (el.innerHTML == "Enter text here" || el.innerHTML == "Project name") {
+        window.getSelection().selectAllChildren(el);
+    }
 }
 
 function changePriority(el) {
@@ -92,4 +94,15 @@ function emptyContainers() {
     $("#doneBoxes").empty()
     $("#progressBoxes").empty()
     $("#todoBoxes").empty()
+}
+
+function reverseTile(tile) {
+    let text = tile.childNodes[1].innerHTML
+    let userImg = tile.childNodes[3].src;
+    let priority = tile.childNodes[5].classList[1]
+    return {
+        "text": text,
+        "userImg": userImg,
+        "priority": priority,
+    }
 }

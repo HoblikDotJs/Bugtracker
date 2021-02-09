@@ -1,23 +1,36 @@
 let profile;
-
+let googleProfile;
 async function onSignIn(googleUser) {
-    let p = googleUser.getBasicProfile();
+    googleProfile = googleUser.getBasicProfile();
     profile = {
-        'ID': p.getId(),
-        'Name': p.getName(),
-        'Image URL': p.getImageUrl(),
-        'Email': p.getEmail(),
-        'Projects': [p.getId() + Date.parse(new Date)],
+        'ID': googleProfile.getId(),
+        'Name': googleProfile.getName(),
+        'Image URL': googleProfile.getImageUrl(),
+        'Email': googleProfile.getEmail(),
+        'Projects': [googleProfile.getId() + Date.parse(new Date)],
     }
-    database.ref("users/" + p.getId()).on("value", (snap) => { //check if user exists 
+    loadProject(googleProfile, 0);
+    let img = googleProfile.getImageUrl();
+    preloadImage(img);
+    //sett.user = img;
+    $("#googleBtn").html(`<img id="userImg" src="${img}">`);
+}
+
+function loadProject(p) {
+    database.ref("users/" + p.getId()).once("value", (snap) => { //check if user exists 
         let data = snap.val();
-        if (data == null) {
-            database.ref("users/" + p.getId()).set(profile); //create profile
-            database.ref("projects/" + profile.Projects[0] + "/users/" + profile.ID).set(profile.ID); //create project
-        } else {
+        if (data == null) { //create project and profile
+            database.ref("users/" + p.getId()).set(profile);
+            database.ref("projects/" + profile.Projects[workingIndex] + "/users/" + profile.ID).set(profile.ID);
+        } else { //load
             profile = data;
-            database.ref("projects/" + profile.Projects[0]).once("value", (_) => {
+            database.ref("projects/" + profile.Projects[workingIndex]).once("value", (_) => {
                 const snap = _.val().data;
+                if (snap == undefined) { // its a new project
+                    emptyContainers();
+                    $('#projectName').html("Project name")
+                    return
+                }
                 emptyContainers();
                 if (snap.todo) {
                     for (let tile in snap.todo) {
@@ -30,7 +43,6 @@ async function onSignIn(googleUser) {
                 if (snap.progress) {
                     for (let tile in snap.progress) {
                         project.progress[tile] = (snap.progress[tile]);
-
                     }
                     for (let tile of project.progress) {
                         addInprogress(tile, false);
@@ -47,21 +59,17 @@ async function onSignIn(googleUser) {
                 if (snap.done) {
                     for (let tile in snap.done) {
                         project.done[tile] = (snap.done[tile]);
-
                     }
                     for (let tile of project.done) {
                         addDone(tile, false);
                     }
                 }
+                $('#projectName').html(snap.projectName);
             })
         }
     });
-
-    let img = p.getImageUrl();
-    preloadImage(img);
-    //sett.user = img;
-    $("#googleBtn").html(`<img id="userImg" src="${img}">`);
 }
+
 let myImage;
 
 function preloadImage(url) {
@@ -69,8 +77,6 @@ function preloadImage(url) {
     myImage.className = "otherUsersImages";
     myImage.src = url;
 }
-
-
 
 
 

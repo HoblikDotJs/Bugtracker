@@ -17,8 +17,15 @@ function updateProjectTimeout() {
         "progress": [],
         "review": [],
         "done": [],
-        "projectName": "",
+        "projectName": "Project name",
         "id": "",
+    }
+
+    if ($('#projectName').html() != "Add new project") {
+        //console.log($('#projectName').html())
+        newProject.projectName = $('#projectName').html();
+    } else {
+        newProject.projectName = project.projectName
     }
     document.querySelectorAll('.containBox').forEach(e => {
         if (e.id == "todoBoxes") {
@@ -54,19 +61,6 @@ function updateProjectTimeout() {
         return
     } else {
         project = newProject
-        database.ref("projects/" + profile.Projects[0] + "/data").set(project);
-    }
-}
-
-function reverseTile(tile) {
-    let text = tile.childNodes[1].innerHTML
-    let userImg = tile.childNodes[3].src;
-    let priority = tile.childNodes[5].classList[1]
-
-
-    return {
-        "text": text,
-        "userImg": userImg,
-        "priority": priority,
+        database.ref("projects/" + profile.Projects[workingIndex] + "/data").set(project);
     }
 }

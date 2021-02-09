@@ -10,6 +10,19 @@ body {
   height: 100vh;
   width: 100%;
 }
+
+#project {
+  border-bottom: 2px solid lightgray;
+  border-top: 2px solid lightgray;
+  padding: 10px 0;
+}
+
+#project span {
+  margin-right: 5vw;
+  vertical-align: center;
+  padding: 0;
+  color: gray;
+}
 /*
 .containBox {
   min-height: 10px;
