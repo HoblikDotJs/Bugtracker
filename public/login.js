@@ -1,5 +1,6 @@
 let profile;
 let googleProfile;
+let workingId;
 async function onSignIn(googleUser) {
     googleProfile = googleUser.getBasicProfile();
     profile = {
@@ -7,31 +8,63 @@ async function onSignIn(googleUser) {
         'Name': googleProfile.getName(),
         'Image URL': googleProfile.getImageUrl(),
         'Email': googleProfile.getEmail(),
-        'Projects': [googleProfile.getId() + Date.parse(new Date)],
+        'Projects': [],
     }
+
+
     loadProject(googleProfile, 0);
     let img = googleProfile.getImageUrl();
-    preloadImage(img);
-    //sett.user = img;
-    $("#googleBtn").html(`<img id="userImg" src="${img}">`);
+    $("#googleBtn").html(`<img id="userImg" src="${img}">`)
 }
 
 function loadProject(p) {
     database.ref("users/" + p.getId()).once("value", (snap) => { //check if user exists 
         let data = snap.val();
         if (data == null) { //create project and profile
-            database.ref("users/" + p.getId()).set(profile);
-            database.ref("projects/" + profile.Projects[workingIndex] + "/users/" + profile.ID).set(profile.ID);
+            if (new URLSearchParams(window.location.search).has("invite")) { //with invite
+                let invitation = new URLSearchParams(window.location.search).get("invite");
+                profile.Projects.push(invitation);
+                database.ref("projects/" + invitation + "/users/" + profile.ID).set(profile["Image URL"]);
+                database.ref("users/" + p.getId()).set(profile);
+                loadProject(googleProfile);
+            } else { // without invite
+                profile.Projects.push(googleProfile.getId() + Date.parse(new Date))
+                database.ref("users/" + p.getId()).set(profile);
+                database.ref("projects/" + profile.Projects[workingIndex] + "/users/" + profile.ID).set(profile["Image URL"]);
+            }
         } else { //load
             profile = data;
-            database.ref("projects/" + profile.Projects[workingIndex]).once("value", (_) => {
+            if (new URLSearchParams(window.location.search).has("invite") && !profile.Projects.includes(new URLSearchParams(window.location.search).get("invite"))) {
+                profile.Projects.push(new URLSearchParams(window.location.search).get("invite"));
+                database.ref("users/" + p.getId()).set(profile);
+                database.ref("projects/" + new URLSearchParams(window.location.search).get("invite") + "/users/" + profile.ID).set(profile["Image URL"]);
+                localStorage.setItem("WI", profile.Projects.length - 1);
+                loadProject(googleProfile);
+            }
+            workingIndex = (localStorage.getItem("WI") || 0)
+            if (workingIndex > profile.Projects.length - 1) workingIndex = 0
+            database.ref("projects/" + profile.Projects[workingIndex]).on("value", async (_) => {
+                if (_.val().users) {
+                    for (let user in _.val().users) {
+                        let url = _.val().users[user];
+                        if (localStorage.getItem(url) == null) {
+                            let res = await getBase64FromUrl(url)
+                            localStorage.setItem(url, res)
+                        }
+                    }
+                }
+                workingId = profile.Projects[workingIndex];
+                $("#googleBtn").click(() => {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    urlParams.set('invite', workingId);
+                    alert(location.protocol + '//' + location.host + location.pathname + "?" + urlParams);
+                })
                 const snap = _.val().data;
+                emptyContainers();
                 if (snap == undefined) { // its a new project
-                    emptyContainers();
                     $('#projectName').html("Project name")
                     return
                 }
-                emptyContainers();
                 if (snap.todo) {
                     for (let tile in snap.todo) {
                         project.todo[tile] = (snap.todo[tile]);
@@ -70,13 +103,6 @@ function loadProject(p) {
     });
 }
 
-let myImage;
-
-function preloadImage(url) {
-    myImage = new Image();
-    myImage.className = "otherUsersImages";
-    myImage.src = url;
-}
 
 
 

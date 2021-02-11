@@ -25,6 +25,7 @@ let workingIndex = 0;
 
 function showOneProject(index) {
     workingIndex = index;
+    localStorage.setItem("WI", workingIndex);
     $('#oneProject').show();
     $('#projectBtn').unbind("click");
     $('#projectName').attr('contenteditable', 'true').unbind("click");

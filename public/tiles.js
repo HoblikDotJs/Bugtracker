@@ -1,6 +1,6 @@
 function addTodo(sett = {
     text: "Enter text here",
-    user: "",
+    userImg: googleProfile.getImageUrl(),
     priority: "lowPriority"
 }, pre = true) {
     if (pre) {
@@ -13,7 +13,7 @@ function addTodo(sett = {
 
 function addInprogress(sett = {
     text: "Enter text here",
-    user: "",
+    userImg: googleProfile.getImageUrl(),
     priority: "lowPriority"
 }, pre = true) {
     if (pre) {
@@ -26,20 +26,22 @@ function addInprogress(sett = {
 
 function addReview(sett = {
     text: "Enter text here",
-    user: "",
+    userImg: googleProfile.getImageUrl(),
     priority: "lowPriority"
 }, pre = true) {
     if (pre) {
         $("#reviewBoxes").prepend(createTile(sett))
+        console.log(createTile(sett))
     } else {
         $("#reviewBoxes").append(createTile(sett))
     }
     updateDragging()
+
 }
 
 function addDone(sett = {
     text: "Enter text here",
-    user: "",
+    userImg: googleProfile.getImageUrl(),
     priority: "lowPriority"
 }, pre = true) {
     if (pre) {
@@ -51,7 +53,7 @@ function addDone(sett = {
 }
 
 function createTile({
-    user,
+    userImg,
     text,
     priority
 }) {
@@ -60,12 +62,17 @@ function createTile({
         mediumPriority: "Medium",
         highPriority: "High",
     }
+    let url = localStorage.getItem(userImg);
+    if (localStorage.getItem(userImg) == null) {
+        url = userImg;
+    }
     return `<div class="draggable"  draggable="true">
       <div contenteditable="true" onchange="updateProject()" onclick="editTile(this)">${text}</div>
-      ${myImage.outerHTML}
+      <img class="otherUsersImages" src="${url}">
       <p class="priority ${priority}" onclick="changePriority(this)">${priorities[priority]}</p>
     </div>`
 }
+
 
 function editTile(el) {
     if (el.innerHTML == "Enter text here" || el.innerHTML == "Project name") {
@@ -105,4 +112,18 @@ function reverseTile(tile) {
         "userImg": userImg,
         "priority": priority,
     }
+}
+
+
+const getBase64FromUrl = async (url) => {
+    const data = await fetch(url);
+    const blob = await data.blob();
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function () {
+            const base64data = reader.result;
+            resolve(base64data);
+        }
+    });
 }

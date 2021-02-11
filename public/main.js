@@ -11,6 +11,7 @@ function updateProject() {
     setTimeout(updateProjectTimeout, 5)
 }
 
+
 function updateProjectTimeout() {
     let newProject = {
         "todo": [],
