@@ -31,7 +31,6 @@ function addReview(sett = {
 }, pre = true) {
     if (pre) {
         $("#reviewBoxes").prepend(createTile(sett))
-        console.log(createTile(sett))
     } else {
         $("#reviewBoxes").append(createTile(sett))
     }

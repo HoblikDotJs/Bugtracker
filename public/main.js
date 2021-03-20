@@ -4,7 +4,7 @@ let project = {
     "review": [],
     "done": [],
     "projectName": "",
-    "id": "",
+    "id": workingId,
 }
 
 function updateProject() {
@@ -12,14 +12,14 @@ function updateProject() {
 }
 
 
-function updateProjectTimeout() {
+async function updateProjectTimeout() {
     let newProject = {
         "todo": [],
         "progress": [],
         "review": [],
         "done": [],
         "projectName": "Project name",
-        "id": "",
+        "id": workingId,
     }
 
     if ($('#projectName').html() != "Add new project") {
@@ -62,6 +62,19 @@ function updateProjectTimeout() {
         return
     } else {
         project = newProject
-        database.ref("projects/" + profile.Projects[workingIndex] + "/data").set(project);
+        const response = await (await fetch("/updateProject", {
+            method: "POST",
+            body: JSON.stringify({
+                project: project,
+                ID: workingId
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })).json()
+        console.log(response)
     }
 }
+
+
+//LOCALSTORAGE

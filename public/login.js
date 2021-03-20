@@ -4,19 +4,117 @@ let workingId;
 async function onSignIn(googleUser) {
     googleProfile = googleUser.getBasicProfile();
     profile = {
-        'ID': googleProfile.getId(),
+        'ID': 4, //googleProfile.getId(),
         'Name': googleProfile.getName(),
         'Image URL': googleProfile.getImageUrl(),
         'Email': googleProfile.getEmail(),
-        'Projects': [],
     }
-
-
-    loadProject(googleProfile, 0);
+    let invitation;
+    if (new URLSearchParams(window.location.search).has("invite")) { //with invite
+        invitation = new URLSearchParams(window.location.search).get("invite");
+    }
+    loadProject(profile, invitation, undefined);
     let img = googleProfile.getImageUrl();
     $("#googleBtn").html(`<img id="userImg" src="${img}">`)
 }
 
+async function loadProject(profile, invitation, id) {
+    const response = await (await fetch("/loadProject", {
+        method: "POST",
+        body: JSON.stringify({
+            profile: profile,
+            invitation: invitation,
+            index: id
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })).json()
+    workingId = response.data.id
+    $("#googleBtn").unbind("click");
+    $("#googleBtn").click(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('invite', response.data.id);
+        alert(location.protocol + '//' + location.host + location.pathname + "?" + urlParams);
+    })
+    const snap = response.data;
+    emptyContainers();
+    console.log(snap)
+    if (snap.todo) {
+        for (let tile in snap.todo) {
+            project.todo[tile] = (snap.todo[tile]);
+        }
+        for (let tile of snap.todo) { // project.todo
+            addTodo(tile, false);
+        }
+    }
+    if (snap.progress) {
+        for (let tile in snap.progress) {
+            project.progress[tile] = (snap.progress[tile]);
+        }
+        for (let tile of snap.progress) {
+            addInprogress(tile, false);
+        }
+    }
+    if (snap.review) {
+        for (let tile in snap.review) {
+            project.review[tile] = (snap.review[tile]);
+        }
+        for (let tile of snap.review) {
+            addReview(tile, false);
+        }
+    }
+    if (snap.done) {
+        for (let tile in snap.done) {
+            project.done[tile] = (snap.done[tile]);
+        }
+        for (let tile of snap.done) {
+            addDone(tile, false);
+        }
+    }
+    $('#projectName').html(snap.projectName);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 function loadProject(p) {
     database.ref("users/" + p.getId()).once("value", (snap) => { //check if user exists 
         let data = snap.val();
@@ -24,8 +122,8 @@ function loadProject(p) {
             if (new URLSearchParams(window.location.search).has("invite")) { //with invite
                 let invitation = new URLSearchParams(window.location.search).get("invite");
                 profile.Projects.push(invitation);
-                database.ref("projects/" + invitation + "/users/" + profile.ID).set(profile["Image URL"]);
-                database.ref("users/" + p.getId()).set(profile);
+                database.ref("projects/" + invitation + "/users/" + profile.ID).set(profile["Image URL"]); //addProfileToExistingProject
+                database.ref("users/" + p.getId()).set(profile); // create profile
                 loadProject(googleProfile);
             } else { // without invite
                 profile.Projects.push(googleProfile.getId() + Date.parse(new Date))
@@ -102,7 +200,7 @@ function loadProject(p) {
         }
     });
 }
-
+*/
 
 
 

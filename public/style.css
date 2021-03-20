@@ -25,12 +25,8 @@ body {
 }
 /*
 .containBox {
-  min-height: 10px;
+  min-height: 100vh;
 }*/
-
-/*
-select only if Enter text here
-*/
 
 #backgroundC {
   background-color: #f6f8f9;

@@ -1,4 +1,4 @@
-function showProjects() {
+async function showProjects() {
     updateProjectTimeout()
     $('#projectName').html("Add new project").attr('contenteditable', 'false').click(createProject)
     $('#oneProject').hide();
@@ -7,43 +7,51 @@ function showProjects() {
         return
     });
     $('#projects').empty()
-    profile.Projects.forEach((item, index) => {
-        console.log(index);
-        database.ref("projects/" + item).once("value", (res) => {
-            let snap = res.val();
-            let projectName = snap.data.projectName
-            $('#projects').prepend(`<div id="project" onclick="showOneProject(${index})">
-                                   <span style="margin-left: 5vw;">${projectName}</span>
-                               id: <span>${item}</span>
-                  Number of users: <span>${Object.keys(snap.users).length}</span>
-                                   </div><br>`);
-        })
-    });
+
+    const projects = await (await fetch("/showProjects", {
+        method: "POST",
+        body: JSON.stringify({
+            ID: profile.ID,
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })).json()
+    console.log(projects)
+    for (let item in projects) {
+        $('#projects').prepend(`<div id="project" onclick="showOneProject(${item.toString()})">
+                                       <span style="margin-left: 5vw;">${projects[item].name}</span>
+                                   id: <span>${item}</span>
+                      Number of users: <span>${projects[item].users}</span>
+                                       </div><br>`);
+    }
 }
 
-let workingIndex = 0;
-
-function showOneProject(index) {
-    workingIndex = index;
-    localStorage.setItem("WI", workingIndex);
+function showOneProject(id) {
+    workingId = id;
+    // localStorage.setItem("WI", workingId.toString());
     $('#oneProject').show();
     $('#projectBtn').unbind("click");
     $('#projectName').attr('contenteditable', 'true').unbind("click");
-    loadProject(googleProfile);
+    loadProject(profile, undefined, id);
     $('#projects').empty()
     $('#projects').hide()
 }
 
-function createProject() {
-    let projectId = profile.ID + Date.parse(new Date);
-    profile.Projects.push(projectId);
-    database.ref("projects/" + projectId + "/users/" + profile.ID).set(profile.ID);
-    database.ref("users/" + profile.ID + "/Projects/" + (profile.Projects.length - 1)).set(projectId, (error) => {
-        if (error) {
-            console.log(error)
-        } else {
-            console.log(profile.Projects)
-            showOneProject(profile.Projects.length - 1);
+async function createProject() {
+    const id = await (await fetch("/createProject", {
+        method: "POST",
+        body: JSON.stringify({
+            ID: profile.ID,
+        }),
+        headers: {
+            'Content-Type': 'application/json'
         }
-    });
+    })).json()
+    $('#oneProject').show();
+    $('#projectBtn').unbind("click");
+    $('#projectName').attr('contenteditable', 'true').unbind("click");
+    loadProject(profile, undefined, id);
+    $('#projects').empty()
+    $('#projects').hide()
 }
