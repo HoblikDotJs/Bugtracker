@@ -53,7 +53,7 @@ app.post('/loadProject', (req, res) => {
         } else { //NEW USER without i - create a new project, create profile
             console.log("NEW USER without i");
             data.profile.Projects = [];
-            const projectID = uniqid()
+            const projectID = Date.parse(new Date).toString()
             data.profile.Projects.push(projectID)
             DB.users[data.profile.ID] = data.profile;
             let project = {
@@ -133,7 +133,7 @@ app.post('/showProjects', (req, res) => {
 app.post('/createProject', (req, res) => {
     console.log("creating project");
     const ID = req.body.ID;
-    const projectID = uniqid()
+    const projectID = Date.parse(new Date).toString()
     DB.users[ID].Projects.push(projectID);
     let project = {
         "data": {
