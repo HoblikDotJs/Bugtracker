@@ -11,7 +11,6 @@ function updateProject() {
     setTimeout(updateProjectTimeout, 5)
 }
 
-
 async function updateProjectTimeout() {
     let newProject = {
         "todo": [],

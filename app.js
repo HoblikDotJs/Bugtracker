@@ -1,7 +1,7 @@
 const express = require("express"),
     fs = require("fs"),
     bodyParser = require('body-parser'),
-    uniqid = require("uniqid");
+    shortid = require('shortid');
 
 const app = express()
 app.use(bodyParser.json());
@@ -97,7 +97,6 @@ app.post('/loadProject', (req, res) => {
             if (projectID == undefined) {
                 projectID = DB.users[data.profile.ID].Projects[user.Projects.length - 1]
             }
-            console.log(projectID)
             res.status(200).send(DB.projects[projectID]);
             return
         }
@@ -128,8 +127,6 @@ app.post('/showProjects', (req, res) => {
     res.status(200).send(obj);
 })
 
-
-
 app.post('/createProject', (req, res) => {
     console.log("creating project");
     const ID = req.body.ID;
@@ -150,6 +147,19 @@ app.post('/createProject', (req, res) => {
     }
     DB.projects[projectID] = project
     res.status(200).send(project.data.id);
+    saveData();
+    return
+})
+
+app.post('/deleteProject', (req, res) => {
+    const ID = req.body.ID;
+    const projectID = req.body.project;
+    if (DB.users[ID].Projects.length > 1) {
+        const index = DB.users[ID].Projects.indexOf(projectID.toString())
+        DB.users[ID].Projects.splice(index, 1);
+        delete DB.projects[projectID]
+    }
+    res.status(200).send();
     saveData();
     return
 })

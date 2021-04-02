@@ -19,12 +19,26 @@ async function showProjects() {
     })).json()
     console.log(projects)
     for (let item in projects) {
-        $('#projects').prepend(`<div id="project" onclick="showOneProject(${item.toString()})">
-                                       <span style="margin-left: 5vw;">${projects[item].name}</span>
+        $('#projects').prepend(`<div id="project">
+                                       <b><span onclick="showOneProject(${item.toString()})" style="margin-left: 5vw;">${projects[item].name}</span></b>
                                    id: <span>${item}</span>
                       Number of users: <span>${projects[item].users}</span>
+                      <button class="deleteItem" onclick="deleteProject(${item})"><span class="glyphicon glyphicon-trash"></span></button>
                                        </div><br>`);
     }
+}
+
+function deleteProject(id) {
+    fetch("/deleteProject", {
+        method: "POST",
+        body: JSON.stringify({
+            ID: profile.ID,
+            project: id
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
 }
 
 function showOneProject(id) {

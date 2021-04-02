@@ -35,7 +35,6 @@ function addReview(sett = {
         $("#reviewBoxes").append(createTile(sett))
     }
     updateDragging()
-
 }
 
 function addDone(sett = {
@@ -69,9 +68,13 @@ function createTile({
       <div contenteditable="true" onchange="updateProject()" onclick="editTile(this)">${text}</div>
       <img class="otherUsersImages" src="${url}">
       <p class="priority ${priority}" onclick="changePriority(this)">${priorities[priority]}</p>
+      <button class="deleteItem" onclick="deleteItem(this)"><span class="glyphicon glyphicon-trash"></span></button>
     </div>`
 }
 
+function deleteItem(el) {
+    console.log(el.parentElement.remove())
+}
 
 function editTile(el) {
     if (el.innerHTML == "Enter text here" || el.innerHTML == "Project name") {
