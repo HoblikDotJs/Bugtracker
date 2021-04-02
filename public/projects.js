@@ -23,12 +23,13 @@ async function showProjects() {
                                        <b><span onclick="showOneProject(${item.toString()})" style="margin-left: 5vw;">${projects[item].name}</span></b>
                                    id: <span>${item}</span>
                       Number of users: <span>${projects[item].users}</span>
-                      <button class="deleteItem" onclick="deleteProject(${item})"><span class="glyphicon glyphicon-trash"></span></button>
+                      <button class="deleteItem" onclick="deleteProject(${item}, this)"><span class="glyphicon glyphicon-trash"></span></button>
                                        </div><br>`);
     }
 }
 
-function deleteProject(id) {
+function deleteProject(id, el) {
+    el.parentElement.remove()
     fetch("/deleteProject", {
         method: "POST",
         body: JSON.stringify({
