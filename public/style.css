@@ -1,4 +1,14 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap");
+
+:root {
+  --black: #151b26;
+  --border: #b4a5a5;
+  --background: #f6f8f9;
+  --red: #e8384f;
+  --green: #a4ce30;
+  --orange: #fd612c;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -12,8 +22,8 @@ body {
 }
 
 #project {
-  border-bottom: 2px solid lightgray;
-  border-top: 2px solid lightgray;
+  border-bottom: 2px solid var(--border, gray);
+  border-top: 2px solid var(--border, gray);
   padding: 10px 0;
 }
 
@@ -21,7 +31,6 @@ body {
   margin-right: 5vw;
   vertical-align: center;
   padding: 0;
-  color: gray;
 }
 
 .containBox {
@@ -29,7 +38,7 @@ body {
 }
 
 #backgroundC {
-  background-color: #f6f8f9;
+  background-color: var(--background);
   max-height: 1000%;
   min-height: 100%;
 }
@@ -53,9 +62,9 @@ body {
 .deleteItem {
   display: inline-block;
   user-select: none;
-  color: black;
+  color: var(--black, black);
   background-color: transparent;
-  border: none;
+  border: var(--black, black);
 }
 
 .navbar {
@@ -72,15 +81,16 @@ body {
 }
 
 .draggable {
-  border: 3px solid lightgray;
+  border: 3px solid var(--border, gray);
   font-weight: 200;
-  background-color: white;
+  background-color: #ffffff;
   margin-top: 15px;
   border-radius: 10px;
   width: 94%;
   margin-left: 8px;
   min-height: 50px;
   padding: 0.5em;
+  color: #151b26;
 }
 .draggable div {
   margin-left: 10px;
@@ -96,25 +106,26 @@ body {
 }
 
 .lowPriority {
-  background-color: #a4ce30;
+  background-color: var(--green);
 }
 
 .mediumPriority {
-  background-color: #fd612c;
+  background-color: var(--orange);
 }
 
 .highPriority {
-  background-color: #e8384f;
+  background-color: var(--red);
 }
 
 .plus {
   user-select: none;
-  color: gray;
+  color: var(--border);
   margin-left: 8px;
   width: 94%;
-  background-color: #edf1f2;
-  box-shadow: 0 1px rgb(230, 230, 230);
+  background-color: #ffffff;
+  box-shadow: 0 1px #ffffff;
   height: 3em;
+  border: 3px solid gray;
 }
 
 #logoutButton {
@@ -140,6 +151,7 @@ body {
 }
 
 .tile {
+  color: #151b26;
   padding-top: 3%;
   margin-top: 6%;
   font-weight: 600;

@@ -68,7 +68,7 @@ function createTile({
       <div contenteditable="true" onchange="updateProject()" onclick="editTile(this)">${text}</div>
       <img class="otherUsersImages" src="${url}">
       <p class="priority ${priority}" onclick="changePriority(this)">${priorities[priority]}</p>
-      <button class="deleteItem" onclick="deleteItem(this)"><span class="glyphicon glyphicon-trash"></span></button>
+      <button class="deleteItem" onclick="deleteItem(this)"><span class="glyphicon glyphicon-trash" style="color:var(--black,black);"></span></button>
     </div>`
 }
 

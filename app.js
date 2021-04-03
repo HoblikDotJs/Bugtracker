@@ -157,7 +157,11 @@ app.post('/deleteProject', (req, res) => {
     if (DB.users[ID].Projects.length > 1) {
         const index = DB.users[ID].Projects.indexOf(projectID.toString())
         DB.users[ID].Projects.splice(index, 1);
-        delete DB.projects[projectID]
+        if (Object.keys(DB.projects[projectID].users).length == 1) {
+            delete DB.projects[projectID]
+        } else {
+            delete DB.projects[projectID].users[ID]
+        }
     }
     res.status(200).send();
     saveData();
