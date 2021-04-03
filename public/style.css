@@ -2,7 +2,8 @@
 
 :root {
   --black: #151b26;
-  --border: #b4a5a5;
+  --brown: rgb(140, 132, 132);
+  --border: rgb(180, 165, 165, 0.3);
   --background: #f6f8f9;
   --red: #e8384f;
   --green: #a4ce30;
@@ -37,8 +38,13 @@ body {
   padding: 0;
 }
 #projectBtn {
-  color: var(--border);
+  color: var(--brown);
   font-size: 30px;
+  font-weight: 500;
+}
+
+#projectBtn:hover {
+  text-decoration: underline;
 }
 
 .containBox {
@@ -91,7 +97,7 @@ body {
 }
 
 .draggable {
-  border: 2px solid var(--border, gray);
+  border: 3px solid var(--border, gray);
   font-weight: 200;
   background-color: white;
   margin-top: 15px;
@@ -132,7 +138,7 @@ body {
 
 .plus {
   user-select: none;
-  color: var(--border);
+  color: var(--brown);
   margin-left: 8px;
   width: 94%;
   background-color: white;
@@ -198,9 +204,13 @@ li {
   left: 44%;
   transform: translate(-40%, -40%);
 }
+table {
+  margin-top: 40px;
+}
 
 table td {
-  padding: 25px 50px;
+  width: 100vw;
+  padding: 25px 50px 20px 50px;
   text-align: left;
   border-bottom: 2px solid var(--border, gray);
   border-top: 2px solid var(--border, gray);

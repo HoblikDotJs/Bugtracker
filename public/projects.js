@@ -1,7 +1,7 @@
 let projects;
 async function showProjects() {
     updateProjectTimeout()
-    $('#projectName').html("Add new project").attr('contenteditable', 'false').css("padding", "0 10px").css("color", "var(--red)").css("border-radius", "15px").css("border", "2px solid red").click(createProject)
+    $('#projectName').html("Add new project").attr('contenteditable', 'false').css("cursor", "pointer").css("padding", "0 10px").css("color", "var(--green)").css("border-radius", "15px").css("border", "2px solid var(--green)").click(createProject)
     $('#oneProject').hide();
     $('#projects').show()
     $('#projectBtn').click(() => {
@@ -22,10 +22,10 @@ async function showProjects() {
     for (let item in projects) {
         $('#projectTable').prepend(`<tr>
         <td onclick="showOneProject(${item.toString()})"><b><span>${projects[item].name}</span></b></td>
-        <td onclick="showOneProject(${item.toString()})">id: <span>${item}</span></td>
-        <td onclick="showOneProject(${item.toString()})"> Number of users: <span>${projects[item].users}</span></td>
-        <td><button class="deleteItem" onclick="deleteProject(${item}, this)"><span class="${projects[item].users == 1 ? "glyphicon glyphicon-trash": "glyphicon glyphicon-remove"}"></span></button></td>
+        <td onclick="showOneProject(${item.toString()})"> Number of users: <span>${projects[item].users}  </span><span class="glyphicon glyphicon-user"></td>
         <td><button class="deleteItem" onclick="alertInvite(${item})"><span class="glyphicon glyphicon-share"></span></button></td>
+        <td><button class="deleteItem" onclick="deleteProject(${item}, this)"><span class="${projects[item].users == 1 ? "glyphicon glyphicon-trash": "glyphicon glyphicon-remove"}"></span></button></td>
+        <td onclick="showOneProject(${item.toString()})">id: <span>${item}</span></td>
         </tr><br>`);
     }
 }
@@ -57,7 +57,7 @@ function showOneProject(id) {
     // localStorage.setItem("WI", workingId.toString());
     $('#oneProject').show();
     $('#projectBtn').unbind("click");
-    $('#projectName').attr('contenteditable', 'true').css("border", "none").css("color", "black").unbind("click");
+    $('#projectName').attr('contenteditable', 'true').css("border", "none").css("color", "black").css("cursor", "default").unbind("click");
     loadProject(profile, undefined, id);
     $('#projects').empty()
     $('#projects').hide()
@@ -75,7 +75,7 @@ async function createProject() {
     })).json()
     $('#oneProject').show();
     $('#projectBtn').unbind("click");
-    $('#projectName').attr('contenteditable', 'true').unbind("click").css("border", "none").css("color", "black");
+    $('#projectName').attr('contenteditable', 'true').unbind("click").css("border", "none").css("cursor", "default").css("color", "black");
     loadProject(profile, undefined, id);
     $('#projects').empty()
     $('#projects').hide()
