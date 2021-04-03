@@ -32,14 +32,9 @@ async function loadProject(profile, invitation, id) {
     })).json()
     workingId = response.data.id
     $("#googleBtn").unbind("click");
-    $("#googleBtn").click(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        urlParams.set('invite', response.data.id);
-        alert(location.protocol + '//' + location.host + location.pathname + "?" + urlParams);
-    })
     const snap = response.data;
     emptyContainers();
-    console.log(snap)
+    window.history.replaceState(null, null, window.location.pathname);
     if (snap.todo) {
         for (let tile in snap.todo) {
             project.todo[tile] = (snap.todo[tile]);

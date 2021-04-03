@@ -77,7 +77,7 @@ function deleteItem(el) {
 }
 
 function editTile(el) {
-    if (el.innerHTML == "Enter text here" || el.innerHTML == "Project name") {
+    if (el.innerHTML == "Enter text here" || el.innerHTML == "Project Name" || el.innerHTML == "New Project") {
         window.getSelection().selectAllChildren(el);
     }
 }
@@ -106,7 +106,7 @@ function emptyContainers() {
 }
 
 function reverseTile(tile) {
-    let text = tile.childNodes[1].innerHTML
+    let text = $(tile.childNodes[1]).text().trim()
     let userImg = tile.childNodes[3].src;
     let priority = tile.childNodes[5].classList[1]
     return {

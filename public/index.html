@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bugtracker 0.0.6</title>
+  <title>Bugtracker 0.0.9</title>
   <script src="login.js"></script>
   <script src="main.js"></script>
   <script src="tiles.js"></script>
@@ -26,13 +26,12 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-left">
-            <li><a id="projectBtn" onclick="showProjects()">Projects</a></li>
+            <li><b><a id="projectBtn" onclick="showProjects()">Projects</a></b></li>
           </ul>
           <ul class="nav navbar-nav">
             <li>
               <p id="projectName" href="#" style="color:black; font-weight: 300; font-size: larger;"
-                contenteditable="true" ondblclick="editTile(this)">
-                Project name
+                contenteditable="true" onclick="editTile(this)" ondblclick="editTile(this)" value="Project name">
               </p>
             </li>
           </ul>

@@ -21,6 +21,10 @@ body {
   width: 100%;
 }
 
+#projectName {
+  cursor: text;
+}
+
 #project {
   border-bottom: 2px solid var(--border, gray);
   border-top: 2px solid var(--border, gray);
@@ -29,8 +33,12 @@ body {
 
 #project span {
   margin-right: 5vw;
-  vertical-align: center;
+  vertical-align: bottom;
   padding: 0;
+}
+#projectBtn {
+  color: var(--border);
+  font-size: 30px;
 }
 
 .containBox {
@@ -52,11 +60,13 @@ body {
 .navbar .navbar-nav {
   display: inline-block;
   float: none;
-  vertical-align: top;
+  vertical-align: bottom;
+  margin-bottom: -5px;
 }
 
 #googleBtn {
   width: 150px;
+  cursor: default;
 }
 
 .deleteItem {
@@ -81,16 +91,16 @@ body {
 }
 
 .draggable {
-  border: 3px solid var(--border, gray);
+  border: 2px solid var(--border, gray);
   font-weight: 200;
-  background-color: #ffffff;
+  background-color: white;
   margin-top: 15px;
   border-radius: 10px;
   width: 94%;
   margin-left: 8px;
   min-height: 50px;
   padding: 0.5em;
-  color: #151b26;
+  color: var(--black);
 }
 .draggable div {
   margin-left: 10px;
@@ -106,14 +116,17 @@ body {
 }
 
 .lowPriority {
+  cursor: pointer;
   background-color: var(--green);
 }
 
 .mediumPriority {
+  cursor: pointer;
   background-color: var(--orange);
 }
 
 .highPriority {
+  cursor: pointer;
   background-color: var(--red);
 }
 
@@ -122,10 +135,18 @@ body {
   color: var(--border);
   margin-left: 8px;
   width: 94%;
-  background-color: #ffffff;
-  box-shadow: 0 1px #ffffff;
+  background-color: white;
   height: 3em;
-  border: 3px solid gray;
+  border: none;
+  outline: none;
+}
+.plus:active,
+.plus:focus,
+.plus.active,
+.plus:active:focus {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 #logoutButton {
@@ -151,7 +172,7 @@ body {
 }
 
 .tile {
-  color: #151b26;
+  color: var(--black);
   padding-top: 3%;
   margin-top: 6%;
   font-weight: 600;
@@ -176,6 +197,14 @@ li {
   top: 40%;
   left: 44%;
   transform: translate(-40%, -40%);
+}
+
+table td {
+  padding: 25px 50px;
+  text-align: left;
+  border-bottom: 2px solid var(--border, gray);
+  border-top: 2px solid var(--border, gray);
+  cursor: pointer;
 }
 
 .container {

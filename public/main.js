@@ -23,9 +23,9 @@ async function updateProjectTimeout() {
 
     if ($('#projectName').html() != "Add new project") {
         //console.log($('#projectName').html())
-        newProject.projectName = $('#projectName').html();
+        newProject.projectName = $('#projectName').text().trim();
     } else {
-        newProject.projectName = project.projectName
+        newProject.projectName = project.projectName;
     }
     document.querySelectorAll('.containBox').forEach(e => {
         if (e.id == "todoBoxes") {
@@ -57,6 +57,7 @@ async function updateProjectTimeout() {
             })
         }
     });
+
     if (JSON.stringify(newProject) == JSON.stringify(project)) {
         return
     } else {

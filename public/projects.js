@@ -1,6 +1,7 @@
+let projects;
 async function showProjects() {
     updateProjectTimeout()
-    $('#projectName').html("Add new project").attr('contenteditable', 'false').css("color", "var(--red)").click(createProject)
+    $('#projectName').html("Add new project").attr('contenteditable', 'false').css("padding", "0 10px").css("color", "var(--red)").css("border-radius", "15px").css("border", "2px solid red").click(createProject)
     $('#oneProject').hide();
     $('#projects').show()
     $('#projectBtn').click(() => {
@@ -8,7 +9,7 @@ async function showProjects() {
     });
     $('#projects').empty()
 
-    const projects = await (await fetch("/showProjects", {
+    projects = await (await fetch("/showProjects", {
         method: "POST",
         body: JSON.stringify({
             ID: profile.ID,
@@ -17,20 +18,28 @@ async function showProjects() {
             'Content-Type': 'application/json'
         }
     })).json()
+    $('#projects').prepend(`<table id="projectTable"></table>`);
     for (let item in projects) {
-        console.log(Object.keys(projects).length)
-        $('#projects').prepend(`<div id="project">
-                                       <b><span onclick="showOneProject(${item.toString()})" style="margin-left: 5vw;">${projects[item].name}</span></b>
-                                   id: <span>${item}</span>
-                      Number of users: <span>${projects[item].users}</span>
-                      <button class="deleteItem" onclick="deleteProject(${item}, this, ${Object.keys(projects).length})"><span class="${projects[item].users == 1 ? "glyphicon glyphicon-trash": "glyphicon glyphicon-remove"}"></span></button>
-                                       </div><br>`);
+        $('#projectTable').prepend(`<tr>
+        <td onclick="showOneProject(${item.toString()})"><b><span>${projects[item].name}</span></b></td>
+        <td onclick="showOneProject(${item.toString()})">id: <span>${item}</span></td>
+        <td onclick="showOneProject(${item.toString()})"> Number of users: <span>${projects[item].users}</span></td>
+        <td><button class="deleteItem" onclick="deleteProject(${item}, this)"><span class="${projects[item].users == 1 ? "glyphicon glyphicon-trash": "glyphicon glyphicon-remove"}"></span></button></td>
+        <td><button class="deleteItem" onclick="alertInvite(${item})"><span class="glyphicon glyphicon-share"></span></button></td>
+        </tr><br>`);
     }
 }
 
-function deleteProject(id, el, len) {
-    if (len == 1) return
-    el.parentElement.remove()
+function alertInvite(id) {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set('invite', id);
+    alert(location.protocol + '//' + location.host + location.pathname + "?" + urlParams);
+}
+
+function deleteProject(id, el) {
+    if (Object.keys(projects).length == 1) return
+    el.parentElement.parentElement.remove();
+    delete projects[id]
     fetch("/deleteProject", {
         method: "POST",
         body: JSON.stringify({
@@ -41,7 +50,6 @@ function deleteProject(id, el, len) {
             'Content-Type': 'application/json'
         }
     })
-
 }
 
 function showOneProject(id) {
@@ -49,7 +57,7 @@ function showOneProject(id) {
     // localStorage.setItem("WI", workingId.toString());
     $('#oneProject').show();
     $('#projectBtn').unbind("click");
-    $('#projectName').attr('contenteditable', 'true').css("color", "black").unbind("click");
+    $('#projectName').attr('contenteditable', 'true').css("border", "none").css("color", "black").unbind("click");
     loadProject(profile, undefined, id);
     $('#projects').empty()
     $('#projects').hide()
@@ -67,7 +75,7 @@ async function createProject() {
     })).json()
     $('#oneProject').show();
     $('#projectBtn').unbind("click");
-    $('#projectName').attr('contenteditable', 'true').unbind("click");
+    $('#projectName').attr('contenteditable', 'true').unbind("click").css("border", "none").css("color", "black");
     loadProject(profile, undefined, id);
     $('#projects').empty()
     $('#projects').hide()
