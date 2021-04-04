@@ -23,6 +23,8 @@ async function showProjects() {
         $('#projectTable').prepend(`<tr>
         <td onclick="showOneProject(${item.toString()})"><b><span>${projects[item].name}</span></b></td>
         <td onclick="showOneProject(${item.toString()})"> Number of users: <span>${projects[item].users}  </span><span class="glyphicon glyphicon-user"></td>
+        <td onclick="showOneProject(${item.toString()})"><span>Last change: <br>${new Date(projects[item].lastChange).toLocaleTimeString('en-GB').slice(0, -3)}   (${new Date(projects[item].lastChange).toLocaleDateString('en-GB')})</span></td>
+        <td onclick="showOneProject(${item.toString()})"><span>Created: ${new Date(Number(projects[item].creation)).toLocaleDateString('en-GB')}</span></td>
         <td><button class="deleteItem" onclick="alertInvite(${item})"><span class="glyphicon glyphicon-share"></span></button></td>
         <td><button class="deleteItem" onclick="deleteProject(${item}, this)"><span class="${projects[item].users == 1 ? "glyphicon glyphicon-trash": "glyphicon glyphicon-remove"}"></span></button></td>
         <td onclick="showOneProject(${item.toString()})">id: <span>${item}</span></td>

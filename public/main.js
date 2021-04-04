@@ -10,6 +10,7 @@ let project = {
 function updateProject() {
     setTimeout(updateProjectTimeout, 5)
 }
+let firstTime = true;
 
 async function updateProjectTimeout() {
     let newProject = {
@@ -57,8 +58,7 @@ async function updateProjectTimeout() {
             })
         }
     });
-
-    if (JSON.stringify(newProject) == JSON.stringify(project)) {
+    if ((JSON.stringify(newProject) == JSON.stringify(project))) {
         return
     } else {
         project = newProject
@@ -72,7 +72,7 @@ async function updateProjectTimeout() {
                 'Content-Type': 'application/json'
             }
         })).json()
-        console.log(response)
+        //onsole.log(response)
     }
 }
 

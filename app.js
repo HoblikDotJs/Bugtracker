@@ -92,7 +92,7 @@ app.post('/loadProject', (req, res) => {
                 console.log("unvalid invite")
             }
         } else { //OLD USER without i - load existing project
-            console.log("OLD USER without i");
+            //console.log("OLD USER without i");
             let projectID = data.index
             if (projectID == undefined) {
                 projectID = DB.users[data.profile.ID].Projects[user.Projects.length - 1]
@@ -107,6 +107,10 @@ app.post('/loadProject', (req, res) => {
 app.post('/updateProject', (req, res) => {
     let data = req.body;
     if (DB.projects[data.ID]) {
+        if (!updated(DB.projects[data.ID].data, data.project)) {
+            console.log("updating projects date");
+            DB.projects[data.ID].lastChange = Date.parse(new Date())
+        }
         DB.projects[data.ID].data = data.project
         saveData()
         res.status(200).send(req.body)
@@ -115,13 +119,22 @@ app.post('/updateProject', (req, res) => {
     res.status(200).send(req.body);
 })
 
+function updated(newProject, project) {
+    return (JSON.stringify(newProject.todo) == JSON.stringify(project.todo) &&
+        JSON.stringify(newProject.progress) == JSON.stringify(project.progress) &&
+        JSON.stringify(newProject.review) == JSON.stringify(project.review) &&
+        JSON.stringify(newProject.done) == JSON.stringify(project.done))
+}
+
 app.post('/showProjects', (req, res) => {
     let ID = req.body.ID;
     let obj = {};
     for (let project of DB.users[ID].Projects) {
         obj[project] = {
             name: DB.projects[project].data.projectName,
-            users: Object.keys(DB.projects[project].users).length
+            users: Object.keys(DB.projects[project].users).length,
+            lastChange: DB.projects[project].lastChange,
+            creation: project
         }
     }
     res.status(200).send(obj);
@@ -143,7 +156,8 @@ app.post('/createProject', (req, res) => {
         },
         "users": {
             [ID]: DB.users[ID]['Image URL'],
-        }
+        },
+        "lastChange": Number(projectID)
     }
     DB.projects[projectID] = project
     res.status(200).send(project.data.id);
