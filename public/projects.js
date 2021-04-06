@@ -25,9 +25,9 @@ async function showProjects() {
         <td onclick="showOneProject(${item.toString()})"> Number of users: <span>${projects[item].users}  </span><span class="glyphicon glyphicon-user"></td>
         <td onclick="showOneProject(${item.toString()})"><span>Last change: <br>${new Date(projects[item].lastChange).toLocaleTimeString('en-GB').slice(0, -3)}   (${new Date(projects[item].lastChange).toLocaleDateString('en-GB')})</span></td>
         <td onclick="showOneProject(${item.toString()})"><span>Created: ${new Date(Number(projects[item].creation)).toLocaleDateString('en-GB')}</span></td>
-        <td><button class="deleteItem" onclick="alertInvite(${item})"><span class="glyphicon glyphicon-share"></span></button></td>
-        <td><button class="deleteItem" onclick="deleteProject(${item}, this)"><span class="${projects[item].users == 1 ? "glyphicon glyphicon-trash": "glyphicon glyphicon-remove"}"></span></button></td>
         <td onclick="showOneProject(${item.toString()})">id: <span>${item}</span></td>
+        <td style="cursor:default"><button class="deleteItem" onclick="alertInvite(${item})"><span class="glyphicon glyphicon-share"></span></button>
+        <button class="deleteItem" onclick="deleteProject(${item}, this)"><span class="${projects[item].users == 1 ? "glyphicon glyphicon-trash": "glyphicon glyphicon-remove"}"></span></button></td>
         </tr><br>`);
     }
 }
@@ -35,11 +35,14 @@ async function showProjects() {
 function alertInvite(id) {
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('invite', id);
-    alert(location.protocol + '//' + location.host + location.pathname + "?" + urlParams);
+    alert("Invite link: " + location.protocol + '//' + location.host + location.pathname + "?" + urlParams);
 }
 
 function deleteProject(id, el) {
-    if (Object.keys(projects).length == 1) return
+    if (Object.keys(projects).length == 1) {
+        alert("You must have at least one project.")
+        return
+    }
     el.parentElement.parentElement.remove();
     delete projects[id]
     fetch("/deleteProject", {
