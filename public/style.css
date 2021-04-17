@@ -71,8 +71,12 @@ body {
 }
 
 #googleBtn {
-  width: 150px;
   cursor: default;
+  margin-right: 2vw;
+}
+
+.nav navbar-right {
+  width: auto;
 }
 
 .deleteItem {
@@ -175,7 +179,6 @@ body {
   border-radius: 50%;
   max-width: 100%;
   height: 45px;
-  margin-left: 75px;
   margin-bottom: 5.4px;
 }
 

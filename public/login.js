@@ -15,7 +15,7 @@ async function onSignIn(googleUser) {
     }
     loadProject(profile, invitation, undefined);
     let img = googleProfile.getImageUrl();
-    $("#googleBtn").html(`<img id="userImg" src="${img}">`)
+    $("#googleBtn").html(`<img id="userImg" onclick="signOut()" src="${img}">`)
 }
 
 async function loadProject(profile, invitation, id) {

@@ -1,7 +1,14 @@
 let projects;
 async function showProjects() {
+    if (!googleProfile) return
     updateProjectTimeout()
-    $('#projectName').html("Add new project").attr('contenteditable', 'false').css("cursor", "pointer").css("padding", "0 10px").css("color", "var(--green)").css("border-radius", "15px").css("border", "2px solid var(--green)").click(createProject)
+    $('#projectName').html("Add new project").attr('contenteditable', 'false').click(createProject).css({
+        "cursor": "pointer",
+        "padding": "0 10px",
+        "color": "var(--green)",
+        "border-radius": "15px",
+        "border": "2px solid var(--green)"
+    })
     $('#oneProject').hide();
     $('#projects').show()
     $('#projectBtn').click(() => {
@@ -62,7 +69,11 @@ function showOneProject(id) {
     // localStorage.setItem("WI", workingId.toString());
     $('#oneProject').show();
     $('#projectBtn').unbind("click");
-    $('#projectName').attr('contenteditable', 'true').css("border", "none").css("color", "black").css("cursor", "default").unbind("click");
+    $('#projectName').attr('contenteditable', 'true').css({
+        "border": "none",
+        "color": "black",
+        "cursor": "default"
+    }).unbind("click");
     loadProject(profile, undefined, id);
     $('#projects').empty()
     $('#projects').hide()
@@ -80,7 +91,11 @@ async function createProject() {
     })).json()
     $('#oneProject').show();
     $('#projectBtn').unbind("click");
-    $('#projectName').attr('contenteditable', 'true').unbind("click").css("border", "none").css("cursor", "default").css("color", "black");
+    $('#projectName').attr('contenteditable', 'true').unbind("click").css({
+        "border": "none",
+        "cursor": "default",
+        "color": "black"
+    });
     loadProject(profile, undefined, id);
     $('#projects').empty()
     $('#projects').hide()

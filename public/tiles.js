@@ -1,6 +1,6 @@
 function addTodo(sett = {
     text: "Enter text here",
-    userImg: googleProfile.getImageUrl(),
+    userImg: googleProfile ? googleProfile.getImageUrl() : "https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png",
     priority: "lowPriority"
 }, pre = true) {
     if (pre) {
@@ -13,7 +13,7 @@ function addTodo(sett = {
 
 function addInprogress(sett = {
     text: "Enter text here",
-    userImg: googleProfile.getImageUrl(),
+    userImg: googleProfile ? googleProfile.getImageUrl() : "https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png",
     priority: "lowPriority"
 }, pre = true) {
     if (pre) {
@@ -26,7 +26,7 @@ function addInprogress(sett = {
 
 function addReview(sett = {
     text: "Enter text here",
-    userImg: googleProfile.getImageUrl(),
+    userImg: googleProfile ? googleProfile.getImageUrl() : "https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png",
     priority: "lowPriority"
 }, pre = true) {
     if (pre) {
@@ -39,7 +39,7 @@ function addReview(sett = {
 
 function addDone(sett = {
     text: "Enter text here",
-    userImg: googleProfile.getImageUrl(),
+    userImg: googleProfile ? googleProfile.getImageUrl() : "https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png",
     priority: "lowPriority"
 }, pre = true) {
     if (pre) {
@@ -73,11 +73,12 @@ function createTile({
 }
 
 function deleteItem(el) {
-    console.log(el.parentElement.remove())
+    //  if (!googleProfile) return
+    el.parentElement.remove()
 }
 
 function editTile(el) {
-    if (el.innerHTML == "Enter text here" || el.innerHTML == "Project Name" || el.innerHTML == "New Project") {
+    if (el.innerHTML == "Enter text here" || el.innerHTML == "Edit me!" || el.innerHTML == "Project Name" || el.innerHTML == "New Project") {
         window.getSelection().selectAllChildren(el);
     }
 }

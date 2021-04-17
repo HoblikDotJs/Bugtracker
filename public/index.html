@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bugtracker 0.0.9</title>
+  <title>Bugtracker</title>
   <script src="login.js"></script>
   <script src="main.js"></script>
   <script src="tiles.js"></script>
@@ -14,29 +14,22 @@
 </head>
 
 <body>
+
   <div id="backgroundC">
     <nav class="navbar navbar-default" align="center">
       <div class="container-fluid">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav navbar-left">
+        <div>
+          <ul class="nav navbar-left">
             <li><a id="projectBtn" onclick="showProjects()">Projects</a></li>
           </ul>
-          <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav ">
             <li>
               <p id="projectName" href="#" style="color:black; font-weight: 500; font-size: larger;"
                 contenteditable="true" onclick="editTile(this)" ondblclick="editTile(this)" value="Project name">
               </p>
             </li>
           </ul>
-
-          <ul class="nav navbar-nav navbar-right">
+          <ul class="nav navbar-right">
             <li id="googleBtn">
               <!--<a href="#"> <label for="show" id="logoutButton">Log In </label></a>-->
               <div id="my-signin2"></div>
@@ -53,6 +46,23 @@
             <p class="text-dark">Todo</p>
             <button class="btn plus" onclick="addTodo()"><span class="glyphicon glyphicon-plus"></span></button>
             <div class="containBox" id="todoBoxes">
+              <div class="draggable" draggable="true">
+                <div contenteditable="true" onchange="updateProject()" onclick="editTile(this)">Sign in via Google</div>
+                <img class="otherUsersImages"
+                  src="https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png">
+                <p class="priority highPriority" onclick="changePriority(this)">High</p>
+                <button class="deleteItem" onclick="deleteItem(this)"><span class="glyphicon glyphicon-trash"
+                    style="color:var(--black,black);"></span></button>
+              </div>
+              <div class="draggable" draggable="true">
+                <div contenteditable="true" onchange="updateProject()" onclick="editTile(this)">Create your first
+                  project</div>
+                <img class="otherUsersImages"
+                  src="https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png">
+                <p class="priority mediumPriority" onclick="changePriority(this)">Medium</p>
+                <button class="deleteItem" onclick="deleteItem(this)"><span class="glyphicon glyphicon-trash"
+                    style="color:var(--black,black);"></span></button>
+              </div>
             </div>
           </div>
         </div>
@@ -61,6 +71,14 @@
             <p class="text-dark">In progress</p>
             <button class="btn plus" onclick="addInprogress()"><span class="glyphicon glyphicon-plus"></span></button>
             <div class="containBox" id="progressBoxes">
+              <div class="draggable" draggable="true">
+                <div contenteditable="true" onchange="updateProject()" onclick="editTile(this)">Edit me!</div>
+                <img class="otherUsersImages"
+                  src="https://ssl.gstatic.com/images/branding/product/1x/avatar_circle_blue_512dp.png">
+                <p class="priority lowPriority" onclick="changePriority(this)">Low</p>
+                <button class="deleteItem" onclick="deleteItem(this)"><span class="glyphicon glyphicon-trash"
+                    style="color:var(--black,black);"></span></button>
+              </div>
             </div>
           </div>
         </div>
@@ -116,6 +134,16 @@
       console.log(error);
     }
 
+    function signOut() {
+      let res = confirm("Do you want to sign out?")
+      if (!res) return
+      var auth2 = gapi.auth2.getAuthInstance();
+      auth2.signOut().then(function () {
+        auth2.disconnect();
+        location.reload();
+      });
+    }
+
     function renderButton() {
       gapi.signin2.render('my-signin2', {
         'scope': 'profile email',
@@ -128,7 +156,9 @@
       });
     }
   </script>
+  <script src="drag.js"></script>
   <script>
+    updateDragging()
     // Your web app's Firebase configuration
     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
     var firebaseConfig = {
@@ -145,7 +175,6 @@
     firebase.analytics();
     var database = firebase.database();
   </script>
-  <script src="drag.js"></script>
 </body>
 
 </html>
