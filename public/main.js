@@ -25,6 +25,9 @@ async function updateProjectTimeout() {
     if ($('#projectName').html() != "Add new project") {
         //console.log($('#projectName').html())
         newProject.projectName = $('#projectName').text().trim();
+        if (newProject.projectName == "") {
+            newProject.projectName = "Project name"
+        }
     } else {
         newProject.projectName = project.projectName;
     }
